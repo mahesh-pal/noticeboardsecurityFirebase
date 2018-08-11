@@ -1,0 +1,6 @@
+isLoggedIn(){
+    auth !=null;
+}
+isCurrentUser(uid){
+    isLoggedIn() && auth.uid == uid;
+}

@@ -1,0 +1,22 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "(auth != null && (auth != null && auth.uid == $uid))",
+        ".write": "(auth != null && (auth != null && auth.uid == $uid))"
+      }
+    },
+    "boards": {
+      "$boardId": {
+        ".read": "root.child('users').child(auth.uid).child('boards').child($boardId).val() != null",
+        ".write": "(auth != null && newData.parent().parent().child('boards').child($boardId).child('admins').child(auth.uid).val() != null)"
+      }
+    },
+    "userPhoneMappings": {
+      "$phoneNumber": {
+        ".read": "auth != null",
+        ".write": "(auth != null && newData.parent().parent().child('userPhoneMappings').child($phoneNumber).child('uid').val() == auth.uid)"
+      }
+    }
+  }
+}

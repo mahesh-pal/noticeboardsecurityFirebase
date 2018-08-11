@@ -1,0 +1,39 @@
+isBoardMember(boardId){
+    root.users[auth.uid].boards[boardId]!=null;
+}
+isLoggedIn(){
+    auth !=null;
+}
+isCurrentUser(uid){
+    isLoggedIn() && auth.uid == uid;
+}
+isBoardAdmin(boardId){
+    isLoggedIn() && root.boards[boardId].admins[auth.uid] !=null
+}
+
+path /users/{uid} {
+    read(){
+        isLoggedIn() && isCurrentUser(uid);
+    }
+    write(){
+        isLoggedIn() && isCurrentUser(uid);
+    }
+}
+
+path /boards/{boardId} {
+    read(){
+        isBoardMember(boardId)
+    }
+    write(){
+      isBoardAdmin(boardId);
+    }
+}
+
+path /userPhoneMappings/{phoneNumber} {
+    read(){
+        isLoggedIn();
+    }
+    write(){
+        isLoggedIn() && root.userPhoneMappings[phoneNumber].uid == auth.uid
+    }
+}
